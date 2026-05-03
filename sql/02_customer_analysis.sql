@@ -19,6 +19,37 @@ having total_orders>1;
 -- Insight:
 -- Measures customer retention.
 
+--Customers who spend more than the average
+select 
+    customer_name,
+    SUM(total_purchase_amt) as total_spent
+from ecom
+group by customer_name
+having sum(total_purchase_amt) > (
+    select avg(customer_total)
+    from (
+        select 
+            customer_name,
+            sum(total_purchase_amt) as customer_total
+        from ecom
+        group by customer_name
+    ) t
+)
+order by total_spent desc;
+--Insight:
+--Above-average spenders drive a large share of revenue.
+
+-- Rank customers by total spending
+select 
+    customer_name,
+    sum(total_purchase_amt) as total_spent,
+    rank() over (order by sum(total_purchase_amt) desc) as customer_rank
+from ecom
+group by customer_name;
+--Insight:
+--Top-ranked customers dominate revenue contribution.
+
+
 -- Customer value segments
 select customer_name,
 sum(total_purchase_amt) as total_spent,
