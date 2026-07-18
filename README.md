@@ -1,4 +1,4 @@
-## 🔍 Overview
+##  Overview
 
 This project analyzes an e-commerce dataset using SQL and Power BI to understand revenue trends, customer behavior, and churn patterns.
 
